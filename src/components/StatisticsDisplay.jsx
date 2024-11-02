@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const StatisticsDisplay = ({ stepCount, weight, time, memory }) => {
   return (
-    <div className="flex items-center text-white mt-3 ">
+    <div className="flex  text-white mt-3 ">
       <p className="text-md flex items-center">
         <p className="mr-3">Steps:</p>
         <span className="text-2xl mr-4 font-extrabold  bg-gradient-to-r from-cyan-500 via-sky-300 to-blue-500 inline-block text-transparent bg-clip-text">
@@ -23,7 +23,7 @@ const StatisticsDisplay = ({ stepCount, weight, time, memory }) => {
       </p>
       <p className="text-md flex items-center">
         <p className="mr-3">Memory(MB):</p>
-        <span className="text-2xl mr-24 font-extrabold  bg-gradient-to-r from-cyan-500 via-sky-300 to-blue-500 inline-block text-transparent bg-clip-text">
+        <span className="text-2xl font-extrabold  bg-gradient-to-r from-cyan-500 via-sky-300 to-blue-500 inline-block text-transparent bg-clip-text">
           {memory}
         </span>
       </p>

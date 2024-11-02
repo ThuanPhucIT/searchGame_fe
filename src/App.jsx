@@ -23,6 +23,8 @@ const App = () => {
   const [memory, setMemory] = useState(0);
 
   const [restart, setRestart] = useState(false);
+  const [pause, setPause] = useState(false);
+
   const [selectedButton, setSelectedButton] = useState(null);
 
   const [aresPathStep, setAresPathStep] = useState([]);
@@ -33,7 +35,7 @@ const App = () => {
 
   const handleButtonClick = async (buttonName) => {
     setSelectedButton(buttonName);
-
+    setPause(false);
     setLoading(true);
     setError(null);
 
@@ -137,7 +139,7 @@ const App = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (currentStep < aresPathStep.length) {
+      if (currentStep < aresPathStep.length && !pause) {
         const nextAresPosition = updatePosition(aresPathStep[currentStep], 0);
         let nextStones = [...stones];
 
@@ -156,6 +158,7 @@ const App = () => {
         }
 
         setAresPosition(nextAresPosition);
+
         setCurrentStep(currentStep + 1);
       } else {
         clearInterval(interval);
@@ -190,6 +193,8 @@ const App = () => {
       setRestart(!restart);
       setCurrentStep(0);
       setWeight(0);
+      setPause(false);
+      setLoading(false);
     }
   };
 
@@ -232,6 +237,10 @@ const App = () => {
     } finally {
       setLoading(false); // Always turn off loading state here
     }
+  };
+
+  const handlePause = async () => {
+    setPause(!pause);
   };
 
   const options = mazesData.map((_, index) => ({
@@ -292,6 +301,13 @@ const App = () => {
 
               <button
                 className="text-white font-bold py-1 px-4 rounded hover:scale-105 hover:duration-500 transition-transform duration-500 ease-in-out hover:bg-gradient-to-r from-cyan-500 via-sky-300 to-blue-500 hover:inline-block hover:text-transparent hover:bg-clip-text hover:shadow-lg hover:shadow-blue-500/50"
+                onClick={handlePause}
+              >
+                Pause
+              </button>
+
+              <button
+                className="text-white mr-5 font-bold py-1 px-4 rounded hover:scale-105 hover:duration-500 transition-transform duration-500 ease-in-out hover:bg-gradient-to-r from-cyan-500 via-sky-300 to-blue-500 hover:inline-block hover:text-transparent hover:bg-clip-text hover:shadow-lg hover:shadow-blue-500/50"
                 onClick={handleDownload}
               >
                 Downloads
