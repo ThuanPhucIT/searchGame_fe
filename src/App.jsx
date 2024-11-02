@@ -19,6 +19,8 @@ const App = () => {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [weight, setWeight] = useState(0);
+  const [time, setTime] = useState(0);
+  const [memory, setMemory] = useState(0);
 
   const [restart, setRestart] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
@@ -46,8 +48,12 @@ const App = () => {
         },
         body: JSON.stringify({
           algorithm: buttonName,
-          input_file: `input-0${selectedMazeIndex + 1}.txt`,
-          output_file: `output-0${selectedMazeIndex + 1}.txt`,
+          input_file: `input-${(selectedMazeIndex + 1)
+            .toString()
+            .padStart(2, "0")}.txt`,
+          output_file: `output-${(selectedMazeIndex + 1)
+            .toString()
+            .padStart(2, "0")}.txt`,
         }),
       });
 
@@ -62,6 +68,19 @@ const App = () => {
       const output = data.output;
 
       const outputLines = output.split("\n");
+
+      const line = outputLines[1];
+
+      const regex =
+        /Steps: (\d+), Weight: (\d+), Node: (\d+), Time \(ms\): ([\d.]+), Memory \(MB\): ([\d.]+)/;
+
+      const match = line.match(regex);
+
+      if (match) {
+        setTime(match[4]);
+        setMemory(match[5]);
+      }
+
       const path = outputLines[outputLines.length - 2];
       setAresPathStep(path.split(""));
       setCurrentPathTemplate(selectedMazeIndex);
@@ -155,6 +174,8 @@ const App = () => {
     setCurrentStep(0);
     setWeight(0);
     setAresPathStep([]);
+    setTime(0);
+    setMemory(0);
   }, [selectedMazeIndex]);
 
   const handleMazeChange = (value) => {
@@ -184,8 +205,12 @@ const App = () => {
         },
         body: JSON.stringify({
           algorithm: "ALL",
-          input_file: `input-0${selectedMazeIndex + 1}.txt`,
-          output_file: `output-0${selectedMazeIndex + 1}.txt`,
+          input_file: `input-${(selectedMazeIndex + 1)
+            .toString()
+            .padStart(2, "0")}.txt`,
+          output_file: `output-${(selectedMazeIndex + 1)
+            .toString()
+            .padStart(2, "0")}.txt`,
         }),
       });
 
@@ -320,7 +345,12 @@ const App = () => {
           </div>
           <div className="mt-7 flex flex-col justify-center items-center">
             <MazeSymbols />
-            <StatisticsDisplay stepCount={currentStep} weight={weight} />
+            <StatisticsDisplay
+              stepCount={currentStep}
+              weight={weight}
+              time={time}
+              memory={memory}
+            />
           </div>
           {error && <p className="text-red-500">{error}</p>}{" "}
         </div>

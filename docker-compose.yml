@@ -1,0 +1,24 @@
+services:
+  searchgame_fe:
+    image: thuanlp/searchgame_fe:latest
+    container_name: searchgame_fe
+    ports:
+      - "2705:2705"
+    restart: always
+    networks:
+      - PrviNetwork
+    labels:
+      - "traefik.http.routers.searchgame-secure.rule=Host(`searchgame.lptdevops.website`)"
+      - "traefik.http.routers.searchgame-secure.entrypoints=websecure"
+      - "traefik.http.routers.searchgame-secure.tls=true"
+      - "traefik.http.routers.searchgame-secure.tls.certresolver=leresolver"
+
+      - "traefik.http.routers.searchgame.rule=Host(`searchgame.lptdevops.website`)"
+      - "traefik.http.routers.searchgame.entrypoints=web"
+      - "traefik.http.routers.searchgame.middlewares=redirect-to-https"
+
+      - "traefik.http.services.searchgame.loadbalancer.server.port=2705"
+
+networks:
+  PrviNetwork:
+    external: true

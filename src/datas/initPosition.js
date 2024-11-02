@@ -58,6 +58,22 @@ const initPosition = [
       { x: 6, y: 9, w: 3 },
     ],
   },
+  {
+    Ares: { x: 1, y: 3 },
+    Stones: [
+      { x: 3, y: 2, w: 4 },
+      { x: 3, y: 4, w: 100 },
+      { x: 4, y: 4, w: 3 },
+    ],
+  },
+  {
+    Ares: { x: 1, y: 9 },
+    Stones: [
+      { x: 2, y: 8, w: 5 },
+      { x: 3, y: 8, w: 2 },
+      { x: 5, y: 5, w: 7 },
+    ],
+  },
 ]
 
 export default initPosition
